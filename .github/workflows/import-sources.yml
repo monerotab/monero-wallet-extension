@@ -1,0 +1,96 @@
+name: Import extension sources
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: inspect lists the archive contents, import copies the sources into this repository
+        type: choice
+        options:
+          - inspect
+          - import
+        default: inspect
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Download and unpack the published source archive
+        run: |
+          set -euo pipefail
+          curl -fsSL -A "Mozilla/5.0" -o /tmp/source.zip "https://xmrtab.com/downloads/monero-wallet-source.zip"
+          ls -l /tmp/source.zip
+          mkdir -p /tmp/unpacked
+          unzip -q /tmp/source.zip -d /tmp/unpacked
+          root=/tmp/unpacked
+          if [ "$(find /tmp/unpacked -mindepth 1 -maxdepth 1 | wc -l)" -eq 1 ] && [ -d "$(find /tmp/unpacked -mindepth 1 -maxdepth 1)" ]; then
+            root="$(find /tmp/unpacked -mindepth 1 -maxdepth 1)"
+          fi
+          echo "SOURCE_ROOT=$root" >> "$GITHUB_ENV"
+          echo "===== ARCHIVE CONTENTS ====="
+          (cd "$root" && find . -type f | sort | sed 's|^\./||')
+          echo "===== END OF ARCHIVE CONTENTS ====="
+          echo "total files: $(cd "$root" && find . -type f | wc -l)"
+
+      - name: Report entries that may not belong to the extension
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_ROOT"
+          echo "===== DIRECTORIES ====="
+          find . -type d | sort | sed 's|^\./||'
+          echo "===== LARGEST FILES ====="
+          find . -type f -printf '%s %p\n' | sort -rn | head -20
+          echo "===== SUSPECT ENTRIES ====="
+          find . \( -name node_modules -o -name dist -o -name build -o -name out -o -name coverage -o -name .cache -o -name .parcel-cache -o -name .nyc_output -o -name .DS_Store -o -name __MACOSX -o -name Thumbs.db -o -name desktop.ini -o -name .idea -o -name .vscode -o -name '.env*' -o -name '*.log' -o -name '*.zip' -o -name '*.crx' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' \) -print | sort | sed 's|^\./||'
+          echo "===== END OF SUSPECT ENTRIES ====="
+
+      - name: Clean the source tree
+        if: inputs.mode == 'import'
+        run: |
+          set -euo pipefail
+          cd "$SOURCE_ROOT"
+          rm -rf node_modules dist build out coverage .parcel-cache .cache .nyc_output
+          rm -rf .idea .vscode __MACOSX .git
+          find . -name .DS_Store -delete
+          find . -name Thumbs.db -delete
+          find . -name desktop.ini -delete
+          find . -name '*.log' -delete
+          find . -name '.env*' -delete
+          find . -name '*.zip' -delete
+          find . -name '*.crx' -delete
+          echo "===== CLEANED TREE ====="
+          find . -type f | sort | sed 's|^\./||'
+          echo "total files: $(find . -type f | wc -l)"
+
+      - name: Copy the sources into the repository
+        if: inputs.mode == 'import'
+        run: |
+          set -euo pipefail
+          shopt -s dotglob
+          cp -a "$SOURCE_ROOT"/. "$GITHUB_WORKSPACE"/
+          cd "$GITHUB_WORKSPACE"
+          echo "===== PENDING CHANGES ====="
+          git status --short
+          echo "changed files: $(git status --short | wc -l)"
+
+      - name: Commit and push
+        if: inputs.mode == 'import'
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -m "Import Monero Wallet extension source code"
+          git push
+          echo "Pushed."
