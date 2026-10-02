@@ -1,0 +1,892 @@
+{
+  "test": "Production worker hooks on isolated private fakechain",
+  "status": "passed",
+  "stages": [
+    "isolated fakechain ready; actual production worker built",
+    "fresh native wallets expose genuine empty history with network gate off and zero RPC attempts",
+    "production extSnapshot exposes actual balances and mined transaction history",
+    "custom node allowlist: exact origin only, bundled ids never redirected, loopback node stays untrusted",
+    "production extPrepare signed exact amount and hid metadata without relay",
+    "production extConfirm relayed once and duplicate confirmation was rejected",
+    "unmined outgoing 1 fake XMR remains visible offline with exact fee and zero RPC attempts",
+    "production recipient snapshot confirms exact amount and incoming history offline with zero RPC attempts",
+    "accepted relay response lost: RELAY_UNCERTAIN, one attempt, consumed draft",
+    "uncertain transaction really confirmed; recipient snapshot exact 1.5 fake XMR offline",
+    "offline labels, per-address balances, address book edit/replace/delete and spend/view message signatures with zero RPC attempts",
+    "send max: fee subtracted from the single destination, amount+fee exactly the unlocked balance, relayed once",
+    "send max confirmed: sender balance zero, receiving subaddress credited, tx key proves the payment",
+    "native wallet cache reopens offline with exact balances, confirmed history, labels, address book and note; zero RPC attempts",
+    "wallet keys exclude the private spend key; integrated addresses decode to the primary address and payment ID; zero RPC attempts",
+    "rescan refused by the real engine while an own payment is unconfirmed (PENDING_OUTGOING)",
+    "rescan: from a height scans only later blocks; from 0 rebuilds the identical balance and history, keeps tx keys, drops past recipients; progress reported"
+  ],
+  "publicNetworkRequests": 0,
+  "productionWorkerSha256": "1d105ebf9d7e97e75733dcf515ffd8fb183a55c8f816bee68186bdae3a5c8d62",
+  "daemon": {
+    "version": "0.18.5.1-release",
+    "nettype": "fakechain",
+    "initialHeight": 1,
+    "offline": true,
+    "difficulty": 1
+  },
+  "customNode": {
+    "id": "custom-0123456789abcdef",
+    "url": "http://127.0.0.1:41863"
+  },
+  "freshOffline": [
+    {
+      "balance": "0",
+      "transactions": 0,
+      "contacts": 0,
+      "historyNotice": "Incoming payments appear after their first mined block. Pending outgoing payments are read from the local cache. Sync to update.",
+      "httpClientRequests": 0,
+      "networkRequests": 0
+    },
+    {
+      "balance": "0",
+      "transactions": 0,
+      "contacts": 0,
+      "historyNotice": "Incoming payments appear after their first mined block. Pending outgoing payments are read from the local cache. Sync to update.",
+      "httpClientRequests": 0,
+      "networkRequests": 0
+    }
+  ],
+  "senderSnapshot": {
+    "balance": "3518101685576566",
+    "unlockedBalance": "1442502852058827",
+    "height": 101,
+    "synced": true,
+    "network": "mainnet",
+    "accounts": 1,
+    "addresses": 1,
+    "transactions": 100,
+    "httpClientRequests": 0,
+    "networkRequests": 0,
+    "allHistoryAmountsAreAtomicStrings": true
+  },
+  "customNodeBoundary": {
+    "codes": {
+      "missingUrl": "INVALID_NODE",
+      "pathUrl": "INVALID_NODE",
+      "credentialUrl": "INVALID_NODE",
+      "redirectedBundled": "INVALID_NODE",
+      "unknownId": "INVALID_NODE",
+      "otherOrigin": "NO_CODE"
+    },
+    "trusted": false,
+    "requests": 0,
+    "resynced": true
+  },
+  "prepared": {
+    "hash": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+    "amount": "1000000000000",
+    "fee": "2599200000",
+    "expiresInMs": 299999,
+    "metadataExposed": false
+  },
+  "confirm": {
+    "txHash": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+    "repeatedCode": "DRAFT_NOT_FOUND",
+    "network": {
+      "paths": [
+        "/json_rpc",
+        "/getblocks.bin",
+        "/get_output_distribution.bin",
+        "/get_outs.bin",
+        "/sendrawtransaction"
+      ],
+      "httpClientRequests": 23,
+      "relayRequests": 1,
+      "lostRelayResponses": 0,
+      "requestCount": 19
+    }
+  },
+  "pendingOffline": {
+    "matches": 1,
+    "first": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+    "transaction": {
+      "txid": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+      "type": "pending",
+      "amount": "1000000000000",
+      "fee": "2599200000",
+      "confirmations": 0,
+      "destinations": [
+        {
+          "address": "46oQ5ZGcz7cSWjGShEQ6y4axLiw6BhcPxDjwaP9MobJy3Bz3kZ9W9EdhjHH5KDe7wbZZnd5thV8GY98AbmuRmvXB4c9Q6Zk",
+          "amount": "1000000000000"
+        }
+      ],
+      "subaddressIndices": [
+        0
+      ],
+      "locked": true
+    },
+    "httpClientRequests": 0,
+    "networkRequests": 0
+  },
+  "recipientFirst": {
+    "balance": "1000000000000",
+    "unlockedBalance": "1000000000000",
+    "height": 113,
+    "synced": true,
+    "httpClientRequests": 0,
+    "networkRequests": 0,
+    "transaction": {
+      "txid": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+      "type": "in",
+      "amount": "1000000000000",
+      "fee": "2599200000",
+      "confirmations": 12
+    }
+  },
+  "uncertain": {
+    "hash": "82eaebe33f6b35d68903a8ad1521d6e58d43e8fcae6ff537fa7535b1df2c194f",
+    "amount": "500000000000",
+    "fee": "2599200000",
+    "code": "RELAY_UNCERTAIN",
+    "repeatedCode": "DRAFT_NOT_FOUND",
+    "relayAttempts": 1,
+    "lostResponses": 1
+  },
+  "recipientFinal": {
+    "balance": "1500000000000",
+    "unlockedBalance": "1500000000000",
+    "height": 125,
+    "httpClientRequests": 0,
+    "networkRequests": 0,
+    "transactions": [
+      {
+        "txid": "82eaebe33f6b35d68903a8ad1521d6e58d43e8fcae6ff537fa7535b1df2c194f",
+        "type": "in",
+        "amount": "500000000000",
+        "confirmations": 12
+      },
+      {
+        "txid": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+        "type": "in",
+        "amount": "1000000000000",
+        "confirmations": 24
+      }
+    ]
+  },
+  "tools": {
+    "senderSub": {
+      "index": 1,
+      "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm"
+    },
+    "recipientSub": {
+      "index": 1,
+      "address": "843KffvyLQ7LEDKSo2j3RF9PJG951oGHNdogcb2BVcxeagQsiPKQ4BvEoga4gi6DgA3QWCT9mSMSvDrBvrQhV4WJ4BTkj3A"
+    },
+    "integrated": "4EE3AYUhnaceSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhR62N3pdjw5WTybPRzZ",
+    "labelErrors": {
+      "missingAddress": "INVALID_SUBADDRESS",
+      "missingAccount": "INVALID_ACCOUNT"
+    },
+    "book": [
+      {
+        "index": 0
+      },
+      {
+        "index": 1
+      },
+      {
+        "index": 0
+      },
+      {
+        "index": 1
+      },
+      {
+        "index": 1
+      },
+      {
+        "index": 2
+      },
+      {}
+    ],
+    "duplicate": "DUPLICATE_CONTACT",
+    "stale": "STALE_CONTACT",
+    "duplicateEdit": "DUPLICATE_CONTACT",
+    "afterIntegrated": [
+      {
+        "index": 0,
+        "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+        "description": "Sender inbox"
+      },
+      {
+        "index": 1,
+        "address": "4EE3AYUhnaceSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhR62N3pdjw5WTybPRzZ",
+        "description": "Sender integrated"
+      }
+    ],
+    "afterStandard": [
+      {
+        "index": 0,
+        "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+        "description": "Sender inbox"
+      },
+      {
+        "index": 1,
+        "address": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+        "description": "Sender standard"
+      }
+    ],
+    "staleDelete": "STALE_CONTACT",
+    "missingDelete": "STALE_CONTACT",
+    "contacts": [
+      {
+        "index": 0,
+        "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+        "description": "Sender inbox"
+      },
+      {
+        "index": 1,
+        "address": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+        "description": "Sender standard"
+      }
+    ],
+    "addresses": [
+      {
+        "index": 0,
+        "address": "46oQ5ZGcz7cSWjGShEQ6y4axLiw6BhcPxDjwaP9MobJy3Bz3kZ9W9EdhjHH5KDe7wbZZnd5thV8GY98AbmuRmvXB4c9Q6Zk",
+        "label": "Recipient main",
+        "used": true,
+        "balance": "1500000000000",
+        "unlockedBalance": "1500000000000",
+        "numUnspentOutputs": 2
+      },
+      {
+        "index": 1,
+        "address": "843KffvyLQ7LEDKSo2j3RF9PJG951oGHNdogcb2BVcxeagQsiPKQ4BvEoga4gi6DgA3QWCT9mSMSvDrBvrQhV4WJ4BTkj3A",
+        "label": "Signing address",
+        "used": false,
+        "balance": "0",
+        "unlockedBalance": "0",
+        "numUnspentOutputs": 0
+      }
+    ],
+    "transactions": [
+      {
+        "txid": "82eaebe33f6b35d68903a8ad1521d6e58d43e8fcae6ff537fa7535b1df2c194f",
+        "type": "in",
+        "height": 113,
+        "subaddressIndices": [
+          0
+        ],
+        "destinations": [],
+        "locked": false
+      },
+      {
+        "txid": "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1",
+        "type": "in",
+        "height": 101,
+        "subaddressIndices": [
+          0
+        ],
+        "destinations": [],
+        "locked": false
+      }
+    ],
+    "signatures": {
+      "spendAddress": "46oQ5ZGcz7cSWjGShEQ6y4axLiw6BhcPxDjwaP9MobJy3Bz3kZ9W9EdhjHH5KDe7wbZZnd5thV8GY98AbmuRmvXB4c9Q6Zk",
+      "viewAddress": "843KffvyLQ7LEDKSo2j3RF9PJG951oGHNdogcb2BVcxeagQsiPKQ4BvEoga4gi6DgA3QWCT9mSMSvDrBvrQhV4WJ4BTkj3A",
+      "spendPrefix": "SigV2",
+      "viewPrefix": "SigV2"
+    },
+    "verify": {
+      "spend": {
+        "good": true,
+        "old": false,
+        "signatureType": "spend",
+        "version": 2
+      },
+      "view": {
+        "good": true,
+        "old": false,
+        "signatureType": "view",
+        "version": 2
+      },
+      "tampered": {
+        "good": false,
+        "old": false,
+        "signatureType": null,
+        "version": null
+      },
+      "wrongAddress": {
+        "good": false,
+        "old": false,
+        "signatureType": null,
+        "version": null
+      },
+      "wrongSubaddress": {
+        "good": false,
+        "old": false,
+        "signatureType": null,
+        "version": null
+      },
+      "malformed": {
+        "good": false,
+        "old": false,
+        "signatureType": null,
+        "version": null
+      }
+    },
+    "signMissing": "INVALID_SUBADDRESS",
+    "networkRequests": 0,
+    "httpClientRequests": 0
+  },
+  "sendMax": {
+    "unlocked": "1500000000000",
+    "tooMuch": "INSUFFICIENT_FUNDS",
+    "tooSmall": "AMOUNT_TOO_SMALL",
+    "noFeeRoom": "INSUFFICIENT_FUNDS",
+    "repeatedCode": "DRAFT_NOT_FOUND",
+    "result": {
+      "txHash": "b1d7f65676a385e657ecff5f69db51a15f7d2c646cb364316f124417d4eb4c6a"
+    },
+    "relayRequests": 1,
+    "draft": {
+      "amount": "1497400800000",
+      "fee": "2599200000",
+      "subtractFee": true,
+      "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+      "txHash": "b1d7f65676a385e657ecff5f69db51a15f7d2c646cb364316f124417d4eb4c6a",
+      "metadataExposed": false
+    },
+    "first": "b1d7f65676a385e657ecff5f69db51a15f7d2c646cb364316f124417d4eb4c6a",
+    "balance": "0",
+    "unlockedBalance": "0",
+    "pending": {
+      "type": "pending",
+      "amount": "1497400800000",
+      "fee": "2599200000",
+      "destinations": [
+        {
+          "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+          "amount": "1497400800000"
+        }
+      ],
+      "subaddressIndices": [
+        0
+      ]
+    },
+    "offlineRequests": 0,
+    "offlineHttpClientRequests": 0
+  },
+  "sendMaxFinal": {
+    "balance": "0",
+    "unlockedBalance": "0",
+    "keyShape": true,
+    "check": {
+      "isGood": true,
+      "inTxPool": false,
+      "receivedAmount": "1497400800000"
+    },
+    "incomingKey": "TX_KEY_UNAVAILABLE",
+    "unknownKey": "TX_KEY_UNAVAILABLE",
+    "out": {
+      "type": "out",
+      "amount": "1497400800000",
+      "fee": "2599200000",
+      "destinations": [
+        {
+          "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+          "amount": "1497400800000"
+        }
+      ],
+      "subaddressIndices": [
+        0
+      ]
+    },
+    "incoming": {
+      "type": "in",
+      "amount": "1497400800000",
+      "locked": false,
+      "destinations": [],
+      "subaddressIndices": [
+        1
+      ]
+    },
+    "inbox": {
+      "index": 1,
+      "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+      "label": "Max inbox",
+      "used": true,
+      "balance": "1497400800000",
+      "unlockedBalance": "1497400800000",
+      "numUnspentOutputs": 1
+    },
+    "networkRequests": 0,
+    "httpClientRequests": 0
+  },
+  "reopenedOffline": {
+    "balance": "0",
+    "unlockedBalance": "0",
+    "contacts": [
+      {
+        "index": 0,
+        "address": "872EPGP7iVSWYHdg11BRbHFzN1rYUsfU7fi1xZN4t2rvAK1Nzgetf4hS3ZgE3nLrR5hfvNdu7KETqK4eCW8YWA7N19Mx6nm",
+        "description": "Sender inbox"
+      },
+      {
+        "index": 1,
+        "address": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+        "description": "Sender standard"
+      }
+    ],
+    "subaddressLabels": [
+      "Offline recipient label",
+      "Signing address"
+    ],
+    "label": "Offline recipient label",
+    "transaction": {
+      "type": "in",
+      "amount": "1000000000000",
+      "note": "Offline cached confirmation"
+    },
+    "httpClientRequests": 0,
+    "networkRequests": 0
+  },
+  "walletKeys": {
+    "keyNames": [
+      "primaryAddress",
+      "privateViewKey",
+      "publicSpendKey",
+      "publicViewKey"
+    ],
+    "primaryAddress": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+    "formats": true,
+    "matchesNative": true,
+    "containsSpendKey": false,
+    "given": {
+      "integratedAddress": "4EE3AYUhnaceSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhRCVUiuXuKWEGU7NoAU",
+      "paymentId": "abcdef0123456789"
+    },
+    "random": [
+      {
+        "integratedAddress": "4EE3AYUhnaceSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhRDxxTDVcnYpEeE9FmR",
+        "paymentId": "d2b1cc2dd62e4178"
+      },
+      {
+        "integratedAddress": "4EE3AYUhnaceSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhR6ka2j19eMXMnPGWz4",
+        "paymentId": "14572f204b761ab8"
+      }
+    ],
+    "decoded": [
+      {
+        "standardAddress": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+        "paymentId": "abcdef0123456789"
+      },
+      {
+        "standardAddress": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+        "paymentId": "d2b1cc2dd62e4178"
+      },
+      {
+        "standardAddress": "44XN9jfDBK6eSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhHJvhBbF",
+        "paymentId": "14572f204b761ab8"
+      }
+    ],
+    "nativeIntegrated": "4EE3AYUhnaceSW46T45ohDV9bFboS2hxv6mddWkT1yYoCQQT1kbRENYGFabLp2T9wQCZnkCAZW1iZb3pQdy4BTMhRCVUiuXuKWEGU7NoAU",
+    "bad": {
+      "zero": "INVALID_PARAMS",
+      "upper": "INVALID_PARAMS",
+      "short": "INVALID_PARAMS",
+      "long": "INVALID_PARAMS"
+    },
+    "networkRequests": 0,
+    "httpClientRequests": 0
+  },
+  "rescanPending": {
+    "txHash": "c9da42162d9a6d9bf3b74aae151568abe11841227e554f1858881a7bdf65b4e5",
+    "draftHash": "c9da42162d9a6d9bf3b74aae151568abe11841227e554f1858881a7bdf65b4e5",
+    "check": "PENDING_OUTGOING",
+    "rescan": "PENDING_OUTGOING"
+  },
+  "rescan": {
+    "noGate": "NETWORK_DISABLED",
+    "check": "OK",
+    "before": {
+      "balance": "4854704393109749",
+      "unlockedBalance": "2708984751579182",
+      "height": 139,
+      "transactions": [
+        "004bf3b9e5d562032209e7e72ec23ae18c6cbed48a3ad1dfd39c0c041ebfd3bc:in:35178500547621",
+        "02b98be88acc0faca4a1ee805a6b69377eba64c4d17794708fd21d583a8f32d0:in:35175682555881",
+        "033a5454471d9b016df8f11b871b0efa2f91838f4fd5c219ad52c266b52a5218:in:35181117456379",
+        "03b95de2d2d3ac5d07b79447800521a1f8560e39396ca99ce6faebfd8c327ea1:in:35184070099967",
+        "044d8a4b38c522f7f64851557800709678ec657d8eaf90148caae53d6957345e:in:35180312232951",
+        "060919b1a0725686816f005fe097af69b9d073d19d4633bbaec413fadff9ac8e:in:35179842527796",
+        "07ee7bbf0ed3ce68be8c6519955f6c4cdd9b2983621b6e390f1551d28c45a397:in:35180379334199",
+        "0989c2497bcad3bf07820593327dcbccdae48dda334fd596f4014ec234eea12d:in:35180983251195",
+        "0a28b06c22db6597fe12b0b4cf2d769d18e58f6e5a90069105a8f059c8f66ef1:in:35180647740473",
+        "0c3c32cda9dbeff131fcfb5a56a502100109d43510e83b0624d92db4eaa1dce7:in:35179574127665",
+        "0cece14d43d2bd12ce218e2ffc0bf72834a437ae2194a62b2681fafae4391793:in:35176756049926",
+        "0d5da80a20688edc5cda310f54733275105c5e23854b2e541b67a5155ecddf4d:in:35181587178557",
+        "0edbff25947a141d01ec102775f2a8235b78963cd7f909fe3d9beb9a1e5d3bd5:in:35180245131830",
+        "113a48f861d4bde0edbdacecebfcbd5bbb575a101e4ec1ebd3646dea840fa2d2:in:35179037333548",
+        "14baee76637bc0272cbb70e48735e3c5d7d19ad53596479f44bfe93b52896819:in:35180580638713",
+        "1735385d4368bd3d049eefd3feb63bcc8c54b65378f3c21811f28b334480b26d:in:35180043829237",
+        "176cbb433d6dfc40263a1828929fa0fef064e9975a8f1ca9cf5e061ec6de7e8d:in:35183667452159",
+        "1eda5cb2e14405b5243eaeab36501df19c54f068e3d3cbaa6a284dfb01427c95:in:35176487673343",
+        "1fc21cdf92593f2950075623810eb906e562af43993d6f9cf2ae083f6ab06f58:in:35175548371429",
+        "22a649ec05b2d7c85448e10d7d614cfc06cc8998f279136a16f2bcaa9ae742df:in:35181520075005",
+        "23412c80bfa501604d2dd6ad783da61569d95f8275c7425a3f732661003cad36:in:35181050353723",
+        "24ac4f6af930a3f92c132e87953303c48d1eab1f4b829524084c4bd2ba7e6e55:in:35179775427571",
+        "292669658fa11dca81c061ecba6c1497e1470f889130de42fc2c9ae25199bac1:in:35176621861378",
+        "2a322dc462e37dac427da824794d923c241cd089f63725283f935f47fc29e67a:in:35176688955588",
+        "2c842a1e279d4a7c5681626632d9516bd305042f51621904edfeac53ac8422f0:in:35181452971580",
+        "31c63c1b9e0a309567d5f4ed850a108e28c4b62935aed0fc270798056fa76c57:in:35181184559163",
+        "31f6f5e585c178987b5e6da4f4abb990167e2b93fd7df81d37b2d7f025ab77fb:in:35179507027953",
+        "38e99bf0acb84aae1c6e4cc88a4b12f26634d6c2f1c74cbbc6d2c1726b9eb557:in:35183734559807",
+        "3d7d4a2dcd55763ed624f16b43c7b5b17aff99d7044e7bd178e330d3a04bd7be:in:35182795064383",
+        "3da0f56dcd5d6cd21125ce12b18322944e51bcb0a7033a665cdb0cd1652fc90a:in:35177695384089",
+        "3e7757445708dfa271c45d7b7ccd86c1c33665221cd33e91d837691bb7014e08:in:35178030866654",
+        "402f6f42b28c7d12dc32f99f4a6cfa7cf4c4fd34ecabd379b4f17b968d75f5e1:in:35179238630382",
+        "43a390fc6a227376dfd0f1cae88f02526191b0102c29a56b31d4592b1ee84602:in:35177158618638",
+        "440b3bd6ddf5eab59d6e9bab873b3ee90dbc0bdc503d4d11f7323d4d1c195ba2:in:35181855594046",
+        "4440eb03fce946831a49f5276eaa6007e88fa1f8b4fb1fdf13bbf89c7083cc53:in:35181721386045",
+        "451ded5a300d67bd6eb35a778107519ba9d9f495ed4bccd685c927a02f91a3a3:in:35184204316927",
+        "476daf0c4248a411cee4a66c9f151a8a15ef12e41b40585579b9955bc1afc5ff:in:35183466129983",
+        "48c9ddeb318ce3646e03ea0da281159216ad2c5e8841bcd1d8d6fb54938ef97b:in:35183331915839",
+        "492039151cf7ef8b1d193bc9db57872fa424b50313ef939f234fde1cdf44845f:in:35180714842361",
+        "4a1d898bdbfefd822cd0e3c5b5f7c6cf143054b8a87d1ef107f182fc17af3ebd:in:35183868775487",
+        "4d1e45b86d8e3f78569d98cf9a3e6e959420c7ab646560ef97b86a66b1cebc6f:in:35177427000340",
+        "4d31fb52e65d1094586615a13ca40df9953663d2a51cce1cc40aa42c59c8c5f6:in:35181318765116",
+        "5394abe0a80758c2723bcaf907e71854d4d4fe36d7b9c44a4af8d9e9b952d77a:in:35175615463591",
+        "53c2f00c78360e2014560ff68973c752ff23ffd97cd0276078577d9a378e6345:in:35180227487959",
+        "53e2b0fd59f566699b9e113e3b8e0f55956f96cfcd2a654cadbbb3f6a96f39b2:in:35178366352419",
+        "5459f36e0d6ed32b70c6efc8b2143be912d6c40f8701f0959caa876d7a192093:in:35178232157729",
+        "54aadf7243b4df67bdfdd40dc65fab64716f6029ca063383c2643f59945dacf7:in:35179171531309",
+        "56f339d3d06d0ea69742cbfa7a1beb27dc69dbbf6572b645caaeb7598e7aea82:in:35181788489981",
+        "5752cd8e9fa873649a89ad6754663bcd932a30181374fb0544ba306cd95e0121:in:35177762480346",
+        "5aa3dfcafd15d090504621db4baa17feb19e5180a3af45de47a250418605b0b7:in:35180178030838",
+        "5ad06ffd9621907302ad66180c49c60c0b75559bd00b86f4919d8edc74c38305:in:35176957333706",
+        "614b2d9c99bcd39b463f21417c5938dd572b7a13c57d78a864c1ccc7d1f10cca:in:35177091523533",
+        "62862595d6cd4ee65975355e290954cce1469f4533fd59a1c9e5bdbd726d0881:in:35176152205495",
+        "64e25ce4b905aec2a425b604157a65ca032e1ef1983b01bbaf47fb548a333e2f:in:35175883833519",
+        "653f83422764313f3c48811488520993c24b8c33be9355f91808a286d7130936:in:35182325326078",
+        "66178edabcc6fee5f5c3e337bddb966f565f4e30a110f687de38dd56d6d937d8:in:35183264808959",
+        "668b78cf25b5e8131b6b734bc7e36fdf63488c1910505503be3c8b845c8fea3a:in:35182862170367",
+        "6833bce53ffaab1c3f17806079cf9d39f56ff7cdfea6f31646117e9f48c825c4:in:35175145821144",
+        "68b98b14dc376d80e1c55699abba784abb81b4938ccf46c3e74f5f3642ce5999:in:35182124011582",
+        "6e0b4e0f22b3650b670d3830101ed3e3b863749cd1be454aa5a0065ddcf2909a:in:35182660852799",
+        "6e21c983c4a795b7b7cd83045f75ed6ac85002c45b3b91df433afade42d05178:in:35178567645414",
+        "6ef042f3bf7a8d586a641b680f475a488aa423e9fc74d931e4cd66d92e78fbd7:in:35182929276479",
+        "6ef5e7985e4957d8a0b7e22a4323c360c84e5f797a1fdfd1c47193d1c55f821d:in:35177829576731",
+        "6f8e3a2ca960e44fd5d77aa79744ded525f62a964c3f5bb445a470253093f5bc:in:35184002991679",
+        "73c1eea6052e79ab34940d555cd8e50fc4d474df80db48748ebd801c4e1d4006:in:35176554767297",
+        "73f4b1b9c99845ea5fd81372cfe335b3de52020c0884ad8fc04a23a49af3c6b1:in:35177963769885",
+        "762680f82dfea4e0cd09ce75a44324cd85cf8177303b61e66e49d4fc5cadd717:in:35183399022847",
+        "7745dc988c519979185d9f49de49b1f6beaa0662aa95a2525ada7b501c282b6c:in:35182996382719",
+        "7924f0a8e5904e827011a9f6b8a91e384495e093a569663258c2b1ad1f506191:in:35182191116286",
+        "7d259b9a15e740980f86097f75d4acd9a13a478020466c80ed2610b3f88ee09d:in:35184137208383",
+        "7f633bfea75bdd1a1a95495fe49d6646ab1839e7cc1b5a57fe79427e8ce61212:in:35176085112309",
+        "8213968ce784d62eed129b5537354b01fab9275e8b9d20e806d537806226075e:in:35179305729583",
+        "82eaebe33f6b35d68903a8ad1521d6e58d43e8fcae6ff537fa7535b1df2c194f:out:500000000000",
+        "84c15405e4712834e102962d8b9dc2f443569e73fe936403fb0fff1797dc48f0:in:35175749648299",
+        "8591d00cf7121b2ae0b7a4a0a66f49886f615e3dfdbde96a88ec829688aa22c1:in:35183600344639",
+        "85d0ca53c973fa9fe3cac00222aeaca786b819efa7bfa8d1a0ada1dcdbd9073b:in:35176420579517",
+        "860791ae9fcf5500584b15b8dcb12e96db76b6a2bd80fb5c0d5705a188522064:in:35184271425600",
+        "895b720649ca916422578f726befab8e04fc0677238794b4f75aa24f76da6748:in:35181989802558",
+        "8b606beb1b43d852d2726399166cc4b8766e3a7f324a2425bde9b5a4c8c62a1d:in:35179641227506",
+        "8bbf942e9c1bb19846891fb20cc28a0f3235075027a7067c6a7f3000e4ec326b:in:35178634743335",
+        "8c89166d738648d48efa3d25178129172d613ef7d8af14b40293e9eef316b9a6:in:35176286392250",
+        "8e0f2cae26274b2f2e1fed338966d39083de4b856eee766b21ced9a2face1aa5:in:35181654282237",
+        "91bfba3f04eb3114269470d423315dd5ee56dd4b8403576b83f6c35afcb5e463:in:35178701841384",
+        "9240facb2b4e30e476ea928b631ffd972306a9bc89788bd8d3747fe42b4e0017:in:35176219298808",
+        "94e8c46096e853287517643bdf34ec1f002d91e730bd3367fee2647ebfab2bdf:in:35178970234859",
+        "951b069eaa20a48379592f804fd53a65f77ce2911c7db2b8e5f51cb822635ab3:in:35182056907006",
+        "9a0d6ab784353c797007c06a442a90577f28450fcee97384efacad390eab474b:in:35178903136298",
+        "9b36be43e43cf541c40e7bc0c88a7dc869238cae75cad7b046fcf8f2d342ef59:in:35178299255010",
+        "9deb28af3d9da82855f33713f00d5c5cc4616bd07240807af8181f189f1b1fa8:in:35184338534400",
+        "9f01cf5228f8eb2de4d715ef55fa4cc7a658fb2f964c9c1fc0bd0a633d0e642e:in:35183130595583",
+        "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1:out:1000000000000",
+        "a365c44d586a53e9b297e8d6b6c714f5c4db676a08ff5f2226c87fa2b7dc0fc7:in:35175816740845",
+        "a68db160f87a432fcae7fb26744decaa80bcffd1c6dea36d3cf039a6fa0b67a6:in:35177359904722",
+        "a6b2fdff028a70a223e1ceeecd334b0d8d6a2b6a5777aaf96320e97c19853d56:in:35177561191958",
+        "abeecb6df645553164722820965d536ee5b359cc4ed7a7ce1971cca9eb219e25:in:35178836037865",
+        "ac558eb81bc049f361db704389b34dde2b53407c5bf29fd883e32a7001d2a23e:in:35180849046522",
+        "b1d7f65676a385e657ecff5f69db51a15f7d2c646cb364316f124417d4eb4c6a:in:1497400800000",
+        "b227364e36fad1b3e9bed3efd4a62b9e9b9c30283d95d7004067aafb8aa4b9e2:in:35176353485820",
+        "b2b03fc2668854999f65058db743f4286155cfd113a40e9373e75cf902bd5c8f:in:35183197702207",
+        "b47f5d14d72c0a615c3bbc79df1ce06649b632f0aef5e2b57fdb45858255edc1:in:35177225713872",
+        "b52d57c5c6687918365dcdfde6bfb7466516738ca46a1778953cf87b8fd8d4e8:in:35178433449956",
+        "b618276b12b3f6ac89a799b320332dbbdd504a894a5e7136e34a6e2a9dde0eee:in:35179909628148",
+        "b7cff54cb39c44d467975b41ea7e433f48b5b8366bb2881844ece307d312b347:in:35177812112538",
+        "b82acf92e7b77b62827a45fe63eef0897ac170cf473d9cd634644005a4381542:in:35180446435576",
+        "b8aea24c4393c8f6bd5878d2f0510328c6ca5c0c931e8aa3f5ac64ad1bd8331d:in:35181385868284",
+        "ba75af8a1cfc16b7a546a81b7ce43f247a303831acde41cabcb0e9ee92362aa4:in:35183063489087",
+        "bc8b8497b48d99fc3a3d5a3f62218811830f461b99448e244be2680c69ed9b70:in:35175481279395",
+        "bd5d19648302d07edf3590de15c247a51c8288a2281f77158195a6e5f7b2b035:in:35182593747199",
+        "c3c06b242c24708c7380aef7f9f2e4fcc1cd108b5f9fbf3c234d695a6d11b808:in:35183801667583",
+        "c3f504ef5e6406cfa91d2e72c30e31b2e1e9b647eb1dfe92bb678769ab1a84bf:in:35177494096085",
+        "c7724b664a8267daaf3aca8c1669f95b761f6b40c379211edd645dd44a8e40ee:in:35182526641727",
+        "c78331f6f7952ccaabcedce2fca08ab0e9390e94f745794f7fbc12620d873bd8:in:35175347095711",
+        "c910b22f855d23cc9ed71efc50266a8523ad7c3c888bbc066750510bebf53586:in:35183935883519",
+        "c9954da770c4f93ebc52dc6b789f7d3fff8973e7b9a3aff7fc56b90ebf7bb9aa:in:35179422344391",
+        "c9da42162d9a6d9bf3b74aae151568abe11841227e554f1858881a7bdf65b4e5:out:100000000000",
+        "ca9510d4f2607272380f39911edb09cea0b8680a2240236c56f7402b2b1ccd9c:in:35177024428556",
+        "cc4ec15dfbbf4331f53861480c2c6051992a16bc4960a0ca764b0b23918a51c5:in:35182392431167",
+        "cdc623f98e3b83ac81e6fbb9176560a914051a0d9e43d6fa7d74f4f1810ae7c3:in:35180513537080",
+        "ce8dd800ecb533b12811468904308ea4431190c185b18d19c203413e37cdf72d:in:35178097963551",
+        "d15d6136e4f2d9a301f523fbe9bf14845da383e547b575953b3b23e9273138c4:in:35175280004061",
+        "d48984f1f31a506858b35deda0df9c65aae3add910f665e868e8add16282d048:in:35179372828911",
+        "dafdb73c3da99f1980b1e2a06f346afcd1685613148cb5945e1f74cfdc9533ee:in:35175950926321",
+        "ddad2fdd47f3f93009d5d19952ee38100dff36b4db9a37336b2110bb8d49d039:in:35178768939561",
+        "ddd01d9ef49e093eb1e1f7db07e555f2df5c3216a259e0e2a525ffc06a9a5360:in:35179708327474",
+        "e091d32fb5e9bcc16e6b02979c0a0a834ea91a83aef6579d0f63ea534beb31f2:in:35176890238985",
+        "e0940fd2afeebcf9f7e80629ae93409513a34209705b7afea4a9865bf2ab870e:in:35181922698238",
+        "e137b305bb69022bdbab4e99d44122d33c9b3f51d31d3dd233ab7f352e437b61:in:35179976728629",
+        "e46b4adfe9b512b18977e0820bb023147de54b4799c5f7b2d9ce2ee0ec8fef17:in:35180916148794",
+        "e7d03b4f351bd590d443f1f0907dbaf64e91186e402d6459f6d420a4be911c7b:in:35179439928368",
+        "ea8d74270002e12362349146022f99327d25109e1bb069cc129b3e9d7984167b:in:35180781944378",
+        "ec911375f81f2c0525d5c7661f4d33160dc9d4f1ba7efa0d9097d39a8f7542c4:in:35179104432365",
+        "ede59c638b873d7258c192d32cc5708792616aef7151b51ee7ce24bac0e421ea:in:35180110929974",
+        "ef2d329a26308b041d03898e70849f0a8b605877273318edffd58ac19cb06f0e:in:35178165060576",
+        "efc2821a1b8f37537b87bff92fbb34338a57d8ae7b87c9406b2dbeb428b7e1f6:in:35175414187489",
+        "f12f7f9f1a8a5f7afa836874ead004915eeae72630b7db95176d07d92493d69e:in:35181251662076",
+        "f15387f07a1baa9ffda3fd24fa90dd79f5055ee422bf98c8cacb42059381ee98:in:35178617219251",
+        "f1c726f0634795d2e059cdb0a71d972d9adc9f61518a08122eedd361dbea9efc:in:35182258221118",
+        "f2e9c6dc5770036d8a80d256408f747b29dae46c00077e3a9c84a6fd35eb0fd6:in:35177896673244",
+        "f3f85ed3ade2599e9af3123c91ee7859ae0775d4c38282af4bb85bc6de758104:in:35183533237247",
+        "f80919422e241cacb522f8d358cb3a486734e59fc8b7e403413e7d0cfc8072e0:in:35182727958527",
+        "faf94d06b8ba7ff8dc8e040a51fc7923ab38e140c659efc318e260d56018e1a9:in:35177292809233",
+        "fe347e3105a4755c30ee72a1143d8619528d7d452434acb4004a4f866e38f3a9:in:35182459536383"
+      ],
+      "minHeight": 1,
+      "outgoingDestinations": [
+        1,
+        0,
+        1
+      ]
+    },
+    "partial": {
+      "restoreHeight": 136
+    },
+    "partialView": {
+      "balance": "175789081685052",
+      "unlockedBalance": "0",
+      "height": 139,
+      "transactions": [
+        "6833bce53ffaab1c3f17806079cf9d39f56ff7cdfea6f31646117e9f48c825c4:in:35175145821144",
+        "b7cff54cb39c44d467975b41ea7e433f48b5b8366bb2881844ece307d312b347:in:35177812112538",
+        "c9da42162d9a6d9bf3b74aae151568abe11841227e554f1858881a7bdf65b4e5:in:70260843747309",
+        "d15d6136e4f2d9a301f523fbe9bf14845da383e547b575953b3b23e9273138c4:in:35175280004061"
+      ],
+      "minHeight": 136,
+      "outgoingDestinations": []
+    },
+    "partialProgress": {
+      "count": 3,
+      "starts": [
+        136
+      ],
+      "ends": [
+        139
+      ],
+      "valid": true
+    },
+    "full": {
+      "restoreHeight": 0
+    },
+    "fullProgress": {
+      "count": 2,
+      "starts": [
+        0
+      ],
+      "ends": [
+        139
+      ],
+      "valid": true
+    },
+    "after": {
+      "balance": "4854704393109749",
+      "unlockedBalance": "2708984751579182",
+      "height": 139,
+      "transactions": [
+        "004bf3b9e5d562032209e7e72ec23ae18c6cbed48a3ad1dfd39c0c041ebfd3bc:in:35178500547621",
+        "02b98be88acc0faca4a1ee805a6b69377eba64c4d17794708fd21d583a8f32d0:in:35175682555881",
+        "033a5454471d9b016df8f11b871b0efa2f91838f4fd5c219ad52c266b52a5218:in:35181117456379",
+        "03b95de2d2d3ac5d07b79447800521a1f8560e39396ca99ce6faebfd8c327ea1:in:35184070099967",
+        "044d8a4b38c522f7f64851557800709678ec657d8eaf90148caae53d6957345e:in:35180312232951",
+        "060919b1a0725686816f005fe097af69b9d073d19d4633bbaec413fadff9ac8e:in:35179842527796",
+        "07ee7bbf0ed3ce68be8c6519955f6c4cdd9b2983621b6e390f1551d28c45a397:in:35180379334199",
+        "0989c2497bcad3bf07820593327dcbccdae48dda334fd596f4014ec234eea12d:in:35180983251195",
+        "0a28b06c22db6597fe12b0b4cf2d769d18e58f6e5a90069105a8f059c8f66ef1:in:35180647740473",
+        "0c3c32cda9dbeff131fcfb5a56a502100109d43510e83b0624d92db4eaa1dce7:in:35179574127665",
+        "0cece14d43d2bd12ce218e2ffc0bf72834a437ae2194a62b2681fafae4391793:in:35176756049926",
+        "0d5da80a20688edc5cda310f54733275105c5e23854b2e541b67a5155ecddf4d:in:35181587178557",
+        "0edbff25947a141d01ec102775f2a8235b78963cd7f909fe3d9beb9a1e5d3bd5:in:35180245131830",
+        "113a48f861d4bde0edbdacecebfcbd5bbb575a101e4ec1ebd3646dea840fa2d2:in:35179037333548",
+        "14baee76637bc0272cbb70e48735e3c5d7d19ad53596479f44bfe93b52896819:in:35180580638713",
+        "1735385d4368bd3d049eefd3feb63bcc8c54b65378f3c21811f28b334480b26d:in:35180043829237",
+        "176cbb433d6dfc40263a1828929fa0fef064e9975a8f1ca9cf5e061ec6de7e8d:in:35183667452159",
+        "1eda5cb2e14405b5243eaeab36501df19c54f068e3d3cbaa6a284dfb01427c95:in:35176487673343",
+        "1fc21cdf92593f2950075623810eb906e562af43993d6f9cf2ae083f6ab06f58:in:35175548371429",
+        "22a649ec05b2d7c85448e10d7d614cfc06cc8998f279136a16f2bcaa9ae742df:in:35181520075005",
+        "23412c80bfa501604d2dd6ad783da61569d95f8275c7425a3f732661003cad36:in:35181050353723",
+        "24ac4f6af930a3f92c132e87953303c48d1eab1f4b829524084c4bd2ba7e6e55:in:35179775427571",
+        "292669658fa11dca81c061ecba6c1497e1470f889130de42fc2c9ae25199bac1:in:35176621861378",
+        "2a322dc462e37dac427da824794d923c241cd089f63725283f935f47fc29e67a:in:35176688955588",
+        "2c842a1e279d4a7c5681626632d9516bd305042f51621904edfeac53ac8422f0:in:35181452971580",
+        "31c63c1b9e0a309567d5f4ed850a108e28c4b62935aed0fc270798056fa76c57:in:35181184559163",
+        "31f6f5e585c178987b5e6da4f4abb990167e2b93fd7df81d37b2d7f025ab77fb:in:35179507027953",
+        "38e99bf0acb84aae1c6e4cc88a4b12f26634d6c2f1c74cbbc6d2c1726b9eb557:in:35183734559807",
+        "3d7d4a2dcd55763ed624f16b43c7b5b17aff99d7044e7bd178e330d3a04bd7be:in:35182795064383",
+        "3da0f56dcd5d6cd21125ce12b18322944e51bcb0a7033a665cdb0cd1652fc90a:in:35177695384089",
+        "3e7757445708dfa271c45d7b7ccd86c1c33665221cd33e91d837691bb7014e08:in:35178030866654",
+        "402f6f42b28c7d12dc32f99f4a6cfa7cf4c4fd34ecabd379b4f17b968d75f5e1:in:35179238630382",
+        "43a390fc6a227376dfd0f1cae88f02526191b0102c29a56b31d4592b1ee84602:in:35177158618638",
+        "440b3bd6ddf5eab59d6e9bab873b3ee90dbc0bdc503d4d11f7323d4d1c195ba2:in:35181855594046",
+        "4440eb03fce946831a49f5276eaa6007e88fa1f8b4fb1fdf13bbf89c7083cc53:in:35181721386045",
+        "451ded5a300d67bd6eb35a778107519ba9d9f495ed4bccd685c927a02f91a3a3:in:35184204316927",
+        "476daf0c4248a411cee4a66c9f151a8a15ef12e41b40585579b9955bc1afc5ff:in:35183466129983",
+        "48c9ddeb318ce3646e03ea0da281159216ad2c5e8841bcd1d8d6fb54938ef97b:in:35183331915839",
+        "492039151cf7ef8b1d193bc9db57872fa424b50313ef939f234fde1cdf44845f:in:35180714842361",
+        "4a1d898bdbfefd822cd0e3c5b5f7c6cf143054b8a87d1ef107f182fc17af3ebd:in:35183868775487",
+        "4d1e45b86d8e3f78569d98cf9a3e6e959420c7ab646560ef97b86a66b1cebc6f:in:35177427000340",
+        "4d31fb52e65d1094586615a13ca40df9953663d2a51cce1cc40aa42c59c8c5f6:in:35181318765116",
+        "5394abe0a80758c2723bcaf907e71854d4d4fe36d7b9c44a4af8d9e9b952d77a:in:35175615463591",
+        "53c2f00c78360e2014560ff68973c752ff23ffd97cd0276078577d9a378e6345:in:35180227487959",
+        "53e2b0fd59f566699b9e113e3b8e0f55956f96cfcd2a654cadbbb3f6a96f39b2:in:35178366352419",
+        "5459f36e0d6ed32b70c6efc8b2143be912d6c40f8701f0959caa876d7a192093:in:35178232157729",
+        "54aadf7243b4df67bdfdd40dc65fab64716f6029ca063383c2643f59945dacf7:in:35179171531309",
+        "56f339d3d06d0ea69742cbfa7a1beb27dc69dbbf6572b645caaeb7598e7aea82:in:35181788489981",
+        "5752cd8e9fa873649a89ad6754663bcd932a30181374fb0544ba306cd95e0121:in:35177762480346",
+        "5aa3dfcafd15d090504621db4baa17feb19e5180a3af45de47a250418605b0b7:in:35180178030838",
+        "5ad06ffd9621907302ad66180c49c60c0b75559bd00b86f4919d8edc74c38305:in:35176957333706",
+        "614b2d9c99bcd39b463f21417c5938dd572b7a13c57d78a864c1ccc7d1f10cca:in:35177091523533",
+        "62862595d6cd4ee65975355e290954cce1469f4533fd59a1c9e5bdbd726d0881:in:35176152205495",
+        "64e25ce4b905aec2a425b604157a65ca032e1ef1983b01bbaf47fb548a333e2f:in:35175883833519",
+        "653f83422764313f3c48811488520993c24b8c33be9355f91808a286d7130936:in:35182325326078",
+        "66178edabcc6fee5f5c3e337bddb966f565f4e30a110f687de38dd56d6d937d8:in:35183264808959",
+        "668b78cf25b5e8131b6b734bc7e36fdf63488c1910505503be3c8b845c8fea3a:in:35182862170367",
+        "6833bce53ffaab1c3f17806079cf9d39f56ff7cdfea6f31646117e9f48c825c4:in:35175145821144",
+        "68b98b14dc376d80e1c55699abba784abb81b4938ccf46c3e74f5f3642ce5999:in:35182124011582",
+        "6e0b4e0f22b3650b670d3830101ed3e3b863749cd1be454aa5a0065ddcf2909a:in:35182660852799",
+        "6e21c983c4a795b7b7cd83045f75ed6ac85002c45b3b91df433afade42d05178:in:35178567645414",
+        "6ef042f3bf7a8d586a641b680f475a488aa423e9fc74d931e4cd66d92e78fbd7:in:35182929276479",
+        "6ef5e7985e4957d8a0b7e22a4323c360c84e5f797a1fdfd1c47193d1c55f821d:in:35177829576731",
+        "6f8e3a2ca960e44fd5d77aa79744ded525f62a964c3f5bb445a470253093f5bc:in:35184002991679",
+        "73c1eea6052e79ab34940d555cd8e50fc4d474df80db48748ebd801c4e1d4006:in:35176554767297",
+        "73f4b1b9c99845ea5fd81372cfe335b3de52020c0884ad8fc04a23a49af3c6b1:in:35177963769885",
+        "762680f82dfea4e0cd09ce75a44324cd85cf8177303b61e66e49d4fc5cadd717:in:35183399022847",
+        "7745dc988c519979185d9f49de49b1f6beaa0662aa95a2525ada7b501c282b6c:in:35182996382719",
+        "7924f0a8e5904e827011a9f6b8a91e384495e093a569663258c2b1ad1f506191:in:35182191116286",
+        "7d259b9a15e740980f86097f75d4acd9a13a478020466c80ed2610b3f88ee09d:in:35184137208383",
+        "7f633bfea75bdd1a1a95495fe49d6646ab1839e7cc1b5a57fe79427e8ce61212:in:35176085112309",
+        "8213968ce784d62eed129b5537354b01fab9275e8b9d20e806d537806226075e:in:35179305729583",
+        "82eaebe33f6b35d68903a8ad1521d6e58d43e8fcae6ff537fa7535b1df2c194f:out:500000000000",
+        "84c15405e4712834e102962d8b9dc2f443569e73fe936403fb0fff1797dc48f0:in:35175749648299",
+        "8591d00cf7121b2ae0b7a4a0a66f49886f615e3dfdbde96a88ec829688aa22c1:in:35183600344639",
+        "85d0ca53c973fa9fe3cac00222aeaca786b819efa7bfa8d1a0ada1dcdbd9073b:in:35176420579517",
+        "860791ae9fcf5500584b15b8dcb12e96db76b6a2bd80fb5c0d5705a188522064:in:35184271425600",
+        "895b720649ca916422578f726befab8e04fc0677238794b4f75aa24f76da6748:in:35181989802558",
+        "8b606beb1b43d852d2726399166cc4b8766e3a7f324a2425bde9b5a4c8c62a1d:in:35179641227506",
+        "8bbf942e9c1bb19846891fb20cc28a0f3235075027a7067c6a7f3000e4ec326b:in:35178634743335",
+        "8c89166d738648d48efa3d25178129172d613ef7d8af14b40293e9eef316b9a6:in:35176286392250",
+        "8e0f2cae26274b2f2e1fed338966d39083de4b856eee766b21ced9a2face1aa5:in:35181654282237",
+        "91bfba3f04eb3114269470d423315dd5ee56dd4b8403576b83f6c35afcb5e463:in:35178701841384",
+        "9240facb2b4e30e476ea928b631ffd972306a9bc89788bd8d3747fe42b4e0017:in:35176219298808",
+        "94e8c46096e853287517643bdf34ec1f002d91e730bd3367fee2647ebfab2bdf:in:35178970234859",
+        "951b069eaa20a48379592f804fd53a65f77ce2911c7db2b8e5f51cb822635ab3:in:35182056907006",
+        "9a0d6ab784353c797007c06a442a90577f28450fcee97384efacad390eab474b:in:35178903136298",
+        "9b36be43e43cf541c40e7bc0c88a7dc869238cae75cad7b046fcf8f2d342ef59:in:35178299255010",
+        "9deb28af3d9da82855f33713f00d5c5cc4616bd07240807af8181f189f1b1fa8:in:35184338534400",
+        "9f01cf5228f8eb2de4d715ef55fa4cc7a658fb2f964c9c1fc0bd0a633d0e642e:in:35183130595583",
+        "a14a1235556f4486382de09b14ec57aac6bc30e4b821fa78c1e719936d0849a1:out:1000000000000",
+        "a365c44d586a53e9b297e8d6b6c714f5c4db676a08ff5f2226c87fa2b7dc0fc7:in:35175816740845",
+        "a68db160f87a432fcae7fb26744decaa80bcffd1c6dea36d3cf039a6fa0b67a6:in:35177359904722",
+        "a6b2fdff028a70a223e1ceeecd334b0d8d6a2b6a5777aaf96320e97c19853d56:in:35177561191958",
+        "abeecb6df645553164722820965d536ee5b359cc4ed7a7ce1971cca9eb219e25:in:35178836037865",
+        "ac558eb81bc049f361db704389b34dde2b53407c5bf29fd883e32a7001d2a23e:in:35180849046522",
+        "b1d7f65676a385e657ecff5f69db51a15f7d2c646cb364316f124417d4eb4c6a:in:1497400800000",
+        "b227364e36fad1b3e9bed3efd4a62b9e9b9c30283d95d7004067aafb8aa4b9e2:in:35176353485820",
+        "b2b03fc2668854999f65058db743f4286155cfd113a40e9373e75cf902bd5c8f:in:35183197702207",
+        "b47f5d14d72c0a615c3bbc79df1ce06649b632f0aef5e2b57fdb45858255edc1:in:35177225713872",
+        "b52d57c5c6687918365dcdfde6bfb7466516738ca46a1778953cf87b8fd8d4e8:in:35178433449956",
+        "b618276b12b3f6ac89a799b320332dbbdd504a894a5e7136e34a6e2a9dde0eee:in:35179909628148",
+        "b7cff54cb39c44d467975b41ea7e433f48b5b8366bb2881844ece307d312b347:in:35177812112538",
+        "b82acf92e7b77b62827a45fe63eef0897ac170cf473d9cd634644005a4381542:in:35180446435576",
+        "b8aea24c4393c8f6bd5878d2f0510328c6ca5c0c931e8aa3f5ac64ad1bd8331d:in:35181385868284",
+        "ba75af8a1cfc16b7a546a81b7ce43f247a303831acde41cabcb0e9ee92362aa4:in:35183063489087",
+        "bc8b8497b48d99fc3a3d5a3f62218811830f461b99448e244be2680c69ed9b70:in:35175481279395",
+        "bd5d19648302d07edf3590de15c247a51c8288a2281f77158195a6e5f7b2b035:in:35182593747199",
+        "c3c06b242c24708c7380aef7f9f2e4fcc1cd108b5f9fbf3c234d695a6d11b808:in:35183801667583",
+        "c3f504ef5e6406cfa91d2e72c30e31b2e1e9b647eb1dfe92bb678769ab1a84bf:in:35177494096085",
+        "c7724b664a8267daaf3aca8c1669f95b761f6b40c379211edd645dd44a8e40ee:in:35182526641727",
+        "c78331f6f7952ccaabcedce2fca08ab0e9390e94f745794f7fbc12620d873bd8:in:35175347095711",
+        "c910b22f855d23cc9ed71efc50266a8523ad7c3c888bbc066750510bebf53586:in:35183935883519",
+        "c9954da770c4f93ebc52dc6b789f7d3fff8973e7b9a3aff7fc56b90ebf7bb9aa:in:35179422344391",
+        "c9da42162d9a6d9bf3b74aae151568abe11841227e554f1858881a7bdf65b4e5:out:100000000000",
+        "ca9510d4f2607272380f39911edb09cea0b8680a2240236c56f7402b2b1ccd9c:in:35177024428556",
+        "cc4ec15dfbbf4331f53861480c2c6051992a16bc4960a0ca764b0b23918a51c5:in:35182392431167",
+        "cdc623f98e3b83ac81e6fbb9176560a914051a0d9e43d6fa7d74f4f1810ae7c3:in:35180513537080",
+        "ce8dd800ecb533b12811468904308ea4431190c185b18d19c203413e37cdf72d:in:35178097963551",
+        "d15d6136e4f2d9a301f523fbe9bf14845da383e547b575953b3b23e9273138c4:in:35175280004061",
+        "d48984f1f31a506858b35deda0df9c65aae3add910f665e868e8add16282d048:in:35179372828911",
+        "dafdb73c3da99f1980b1e2a06f346afcd1685613148cb5945e1f74cfdc9533ee:in:35175950926321",
+        "ddad2fdd47f3f93009d5d19952ee38100dff36b4db9a37336b2110bb8d49d039:in:35178768939561",
+        "ddd01d9ef49e093eb1e1f7db07e555f2df5c3216a259e0e2a525ffc06a9a5360:in:35179708327474",
+        "e091d32fb5e9bcc16e6b02979c0a0a834ea91a83aef6579d0f63ea534beb31f2:in:35176890238985",
+        "e0940fd2afeebcf9f7e80629ae93409513a34209705b7afea4a9865bf2ab870e:in:35181922698238",
+        "e137b305bb69022bdbab4e99d44122d33c9b3f51d31d3dd233ab7f352e437b61:in:35179976728629",
+        "e46b4adfe9b512b18977e0820bb023147de54b4799c5f7b2d9ce2ee0ec8fef17:in:35180916148794",
+        "e7d03b4f351bd590d443f1f0907dbaf64e91186e402d6459f6d420a4be911c7b:in:35179439928368",
+        "ea8d74270002e12362349146022f99327d25109e1bb069cc129b3e9d7984167b:in:35180781944378",
+        "ec911375f81f2c0525d5c7661f4d33160dc9d4f1ba7efa0d9097d39a8f7542c4:in:35179104432365",
+        "ede59c638b873d7258c192d32cc5708792616aef7151b51ee7ce24bac0e421ea:in:35180110929974",
+        "ef2d329a26308b041d03898e70849f0a8b605877273318edffd58ac19cb06f0e:in:35178165060576",
+        "efc2821a1b8f37537b87bff92fbb34338a57d8ae7b87c9406b2dbeb428b7e1f6:in:35175414187489",
+        "f12f7f9f1a8a5f7afa836874ead004915eeae72630b7db95176d07d92493d69e:in:35181251662076",
+        "f15387f07a1baa9ffda3fd24fa90dd79f5055ee422bf98c8cacb42059381ee98:in:35178617219251",
+        "f1c726f0634795d2e059cdb0a71d972d9adc9f61518a08122eedd361dbea9efc:in:35182258221118",
+        "f2e9c6dc5770036d8a80d256408f747b29dae46c00077e3a9c84a6fd35eb0fd6:in:35177896673244",
+        "f3f85ed3ade2599e9af3123c91ee7859ae0775d4c38282af4bb85bc6de758104:in:35183533237247",
+        "f80919422e241cacb522f8d358cb3a486734e59fc8b7e403413e7d0cfc8072e0:in:35182727958527",
+        "faf94d06b8ba7ff8dc8e040a51fc7923ab38e140c659efc318e260d56018e1a9:in:35177292809233",
+        "fe347e3105a4755c30ee72a1143d8619528d7d452434acb4004a4f866e38f3a9:in:35182459536383"
+      ],
+      "minHeight": 1,
+      "outgoingDestinations": [
+        0,
+        0,
+        0
+      ]
+    },
+    "sameTxKey": true,
+    "restoreHeight": 0
+  },
+  "network": {
+    "sender": {
+      "paths": [
+        "/json_rpc",
+        "/getblocks.bin",
+        "/get_output_distribution.bin",
+        "/get_outs.bin",
+        "/sendrawtransaction",
+        "/gettransactions",
+        "/gethashes.bin"
+      ],
+      "httpClientRequests": 60,
+      "relayRequests": 3,
+      "lostRelayResponses": 1,
+      "requestCount": 56
+    },
+    "recipient": {
+      "paths": [
+        "/json_rpc",
+        "/getblocks.bin",
+        "/get_output_distribution.bin",
+        "/get_outs.bin",
+        "/sendrawtransaction"
+      ],
+      "httpClientRequests": 27,
+      "relayRequests": 1,
+      "lostRelayResponses": 0,
+      "requestCount": 24
+    }
+  },
+  "cleanedUp": true,
+  "durationMs": 27512
+}

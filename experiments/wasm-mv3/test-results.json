@@ -1,0 +1,63 @@
+[
+  {
+    "variant": "dist-original",
+    "report": {
+      "status": "failed",
+      "stage": "createWalletFull",
+      "errorName": "Error",
+      "cspError": true,
+      "detail": "Dynamic JavaScript blocked by MV3 CSP",
+      "steps": [
+        "createWalletFull"
+      ]
+    },
+    "outboundHttpRequests": 0,
+    "runtimeErrors": [],
+    "csp": "script-src 'self' 'wasm-unsafe-eval'; object-src 'none'; worker-src 'self'; connect-src 'none';"
+  },
+  {
+    "variant": "dist",
+    "report": {
+      "status": "passed",
+      "steps": [
+        "createWalletFull",
+        "getPrimaryAddress",
+        "getSeed",
+        "getBalance",
+        "createAccount",
+        "createSubaddress",
+        "exportWalletData",
+        "close and terminate original worker",
+        "reject wrong password in new worker",
+        "openWallet from exported data in new worker",
+        "restore wallet from seed in third worker",
+        "PASS"
+      ],
+      "durationMs": 10815,
+      "extensionOrigin": "chrome-extension://pddeeimoeljnpdljimecjablkchckppo",
+      "crossOriginIsolated": false,
+      "sharedArrayBufferAvailable": true,
+      "heartbeat": 1080,
+      "exportedBytes": {
+        "keys": 1687,
+        "cache": 418564
+      },
+      "initialHeights": {
+        "restoreHeight": 2192347,
+        "walletHeight": 1
+      },
+      "restoredHeights": {
+        "restoreHeight": 0,
+        "walletHeight": 1
+      },
+      "seedWords": 25,
+      "addressLength": 95,
+      "balances": "zero, real WASM",
+      "workersUsed": 3,
+      "keysOrSeedLogged": false
+    },
+    "outboundHttpRequests": 0,
+    "runtimeErrors": [],
+    "csp": "script-src 'self' 'wasm-unsafe-eval'; object-src 'none'; worker-src 'self'; connect-src 'none';"
+  }
+]

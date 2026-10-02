@@ -1,0 +1,50 @@
+{
+  "name": "monero-wallet-extension",
+  "version": "2.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build-monero.mjs --dev && vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build && node scripts/build-extension.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --experimental-strip-types --test src/lib/*.test.ts src/runtime/*.test.ts",
+    "test:ui": "playwright test",
+    "test:engine": "node experiments/wasm-mv3/build.mjs && node experiments/wasm-mv3/test.mjs",
+    "test:regtest": "node experiments/wasm-mv3/production-regtest.mjs",
+    "package": "node scripts/package.mjs",
+    "website": "node website/build.mjs",
+    "test:website": "playwright test --config website/playwright.config.mjs",
+    "store:assets": "node store/build.mjs",
+    "store:listing": "node store/export-listing.mjs"
+  },
+  "dependencies": {
+    "@fontsource/roboto": "^5.3.0",
+    "lucide-react": "^0.468.0",
+    "monero-ts": "0.11.15",
+    "motion": "^13.4.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.2"
+  },
+  "overrides": {
+    "monero-ts": {
+      "serialize-javascript": "7.1.1",
+      "uuid": "11.1.1"
+    }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@types/chrome": "^0.0.306",
+    "@types/node": "^22.13.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "archiver": "^7.0.1",
+    "esbuild": "^0.25.0",
+    "fake-indexeddb": "6.2.5",
+    "sharp": "^0.35.4",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0"
+  }
+}

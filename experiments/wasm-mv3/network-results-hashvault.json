@@ -1,0 +1,32 @@
+[
+  {
+    "hostPermission": false,
+    "direct": {
+      "reachable": false,
+      "errorName": "TypeError",
+      "durationMs": 89
+    }
+  },
+  {
+    "hostPermission": true,
+    "direct": {
+      "reachable": true,
+      "network": "mainnet",
+      "height": 3766687,
+      "status": 200,
+      "accessControlAllowOrigin": null,
+      "responseType": "basic",
+      "durationMs": 76,
+      "workerOrigin": "chrome-extension://kjmacmncamkbbmebcldgpbakeodkagig"
+    },
+    "nativeWallet": {
+      "height": 3766687,
+      "trusted": false,
+      "balance": "0",
+      "paths": [
+        "/json_rpc"
+      ],
+      "workerOrigin": "chrome-extension://kjmacmncamkbbmebcldgpbakeodkagig"
+    }
+  }
+]

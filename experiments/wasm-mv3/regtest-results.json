@@ -1,0 +1,74 @@
+{
+  "test": "Private isolated regtest, zero public funds",
+  "status": "passed",
+  "stages": [
+    "private daemon ready",
+    "two real browser WASM regtest wallets created",
+    "100 private fakecoin blocks mined",
+    "WASM synced actual binary blocks and recognized unlocked fakecoins",
+    "genuine transaction signed with real fee and relay:false; pool unchanged",
+    "actual signed transaction accepted in private daemon mempool",
+    "recipient confirmed and unlocked exact 1 fake XMR"
+  ],
+  "publicNetworkRequests": 0,
+  "daemon": {
+    "version": "0.18.5.1-release",
+    "nettype": "fakechain",
+    "initialHeight": 1,
+    "offline": true,
+    "difficulty": 1,
+    "host": "127.0.0.1"
+  },
+  "miningResponseFields": [
+    "blocks",
+    "height",
+    "status",
+    "untrusted"
+  ],
+  "minedBlocks": 100,
+  "sync": {
+    "balance": "3518101685576566",
+    "unlockedBalance": "1442502852058827",
+    "height": 101,
+    "trusted": false
+  },
+  "poolBefore": 0,
+  "prepared": {
+    "hash": "643ca8fbd8e527d2e2168e64a4d6adf5c7c4f77bd2d082e73097287c6a3eacc5",
+    "fee": "2599200000",
+    "relayed": false,
+    "metadataPresent": true,
+    "fullHexPresent": true
+  },
+  "poolAfterPrepare": 0,
+  "relayedHash": "643ca8fbd8e527d2e2168e64a4d6adf5c7c4f77bd2d082e73097287c6a3eacc5",
+  "poolAfterRelay": 1,
+  "recipient": {
+    "balance": "1000000000000",
+    "unlockedBalance": "1000000000000",
+    "height": 113,
+    "confirmed": true,
+    "confirmations": 12,
+    "hash": "643ca8fbd8e527d2e2168e64a4d6adf5c7c4f77bd2d082e73097287c6a3eacc5"
+  },
+  "http": {
+    "sender": {
+      "paths": [
+        "/json_rpc",
+        "/getblocks.bin",
+        "/get_output_distribution.bin",
+        "/get_outs.bin",
+        "/sendrawtransaction"
+      ]
+    },
+    "recipient": {
+      "paths": [
+        "/json_rpc",
+        "/getblocks.bin",
+        "/get_transaction_pool_hashes.bin"
+      ]
+    }
+  },
+  "cleanedUp": true,
+  "durationMs": 23234
+}

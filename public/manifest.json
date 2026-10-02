@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Monero Wallet · Standalone",
+  "short_name": "Monero Wallet",
+  "description": "Private, non-custodial Monero (XMR) wallet. Keys stay in your browser: local WebAssembly engine, encrypted vault, no accounts.",
+  "version": "2.3.0",
+  "minimum_chrome_version": "120",
+  "permissions": ["storage", "unlimitedStorage", "offscreen"],
+  "host_permissions": [
+    "https://xmr-node.cakewallet.com/*",
+    "https://node.sethforprivacy.com/*",
+    "http://node.sethforprivacy.com/*",
+    "http://nodes.hashvault.pro/*"
+  ],
+  "optional_host_permissions": ["http://*/*", "https://*/*"],
+  "background": { "service_worker": "launcher.js" },
+  "action": { "default_popup": "index.html?popup=1", "default_title": "Open Monero Wallet", "default_icon": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" } },
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "content_security_policy": { "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'none'; worker-src 'self'; connect-src 'self' http: https:; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'" }
+}

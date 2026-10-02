@@ -1,0 +1,37 @@
+[
+  {
+    "hostPermission": false,
+    "direct": {
+      "reachable": true,
+      "network": "mainnet",
+      "height": 3766687,
+      "status": 200,
+      "accessControlAllowOrigin": null,
+      "responseType": "cors",
+      "durationMs": 5036,
+      "workerOrigin": "chrome-extension://kjmacmncamkbbmebcldgpbakeodkagig"
+    }
+  },
+  {
+    "hostPermission": true,
+    "direct": {
+      "reachable": true,
+      "network": "mainnet",
+      "height": 3766687,
+      "status": 200,
+      "accessControlAllowOrigin": "chrome-extension://kjmacmncamkbbmebcldgpbakeodkagig",
+      "responseType": "basic",
+      "durationMs": 3554,
+      "workerOrigin": "chrome-extension://kjmacmncamkbbmebcldgpbakeodkagig"
+    },
+    "nativeWallet": {
+      "height": 3766687,
+      "trusted": false,
+      "balance": "0",
+      "paths": [
+        "/json_rpc"
+      ],
+      "workerOrigin": "chrome-extension://kjmacmncamkbbmebcldgpbakeodkagig"
+    }
+  }
+]
