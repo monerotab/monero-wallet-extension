@@ -1,0 +1,39 @@
+name: Audit sources
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Scan the sources
+        run: |
+          set -uo pipefail
+          echo "===== TRACKED FILES AND SIZE ====="
+          find . -path ./.git -prune -o -type f -print | wc -l
+          du -sh --exclude=.git .
+          echo "===== FILES CONTAINING CYRILLIC (NON-ENGLISH) TEXT ====="
+          grep -rIlP '[\x{0400}-\x{04FF}]' --exclude-dir=.git . || echo "none"
+          echo "===== FILES CONTAINING NON-ASCII BYTES ====="
+          grep -rIlP '[^\x00-\x7F]' --exclude-dir=.git . || echo "none"
+          echo "===== POSSIBLE SECRETS OR LOCAL PATHS ====="
+          grep -rInE 'PRIVATE KEY|gh[pousr]_[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|/home/[a-z]+/|/Users/[A-Za-z]+/' --exclude-dir=.git --exclude=package-lock.json . | head -40 || echo "none"
+          echo "===== END OF SCAN ====="
+
+      - name: Remove the temporary import workflows
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -q .github/workflows/import-sources.yml .github/workflows/audit.yml
+          if [ -z "$(ls -A .github/workflows 2>/dev/null)" ]; then rmdir .github/workflows; fi
+          git commit -m "Remove temporary import workflows"
+          git push
+          echo "Temporary workflows removed."
